@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 命令行窗口打印 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoding>UTF-8</encoding>
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 过滤级别 DEBUG以上级别都会打印 -->
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <appender name="ssm_island" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>F:/mywork/personalproj/persweb-backend/ssm_island/log/ssm_island.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 每天一归档，保存时间最多10天，单个日志文件最大100MB,总的大小最大为2GB -->
+            <fileNamePattern>F:/mywork/personalproj/persweb-backend/ssm_island/log/ssm_island.log.%d{yyyy-MM-dd}.zip</fileNamePattern>
+            <append>true</append>
+            <maxHistory>10</maxHistory>
+            <maxFileSize>100MB</maxFileSize>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <!-- ssm_island日志格式 -->
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>F:/mywork/personalproj/persweb-backend/ssm_island/log/error.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>F:/mywork/personalproj/persweb-backend/ssm_island/log/error.log.%d{yyyy-MM-dd}.zip</fileNamePattern>
+            <append>true</append>
+            <maxHistory>10</maxHistory>
+            <maxFileSize>100MB</maxFileSize>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- top.kwseeker.www下面的类的log都使用这个logger抓取 -->
+    <logger name="top.kwseeker.www" additivity="false" level="INFO" >
+        <appender-ref ref="ssm_island" />
+        <appender-ref ref="console"/>
+    </logger>
+
+    <!-- 抓取 mybatis sql log -->
+    <logger name="top.kwseeker.www.ssm_island.dao" level="DEBUG"/>
+
+    <!--<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" >-->
+    <!--<appender-ref ref="console"/>-->
+    <!--</logger>-->
+
+    <!--<logger name="java.sql.Connection" level="DEBUG">-->
+    <!--<appender-ref ref="console"/>-->
+    <!--</logger>-->
+    <!--<logger name="java.sql.Statement" level="DEBUG">-->
+    <!--<appender-ref ref="console"/>-->
+    <!--</logger>-->
+
+    <!--<logger name="java.sql.PreparedStatement" level="DEBUG">-->
+    <!--<appender-ref ref="console"/>-->
+    <!--</logger>-->
+
+    <!-- 除了上面源码路径其他都通过root logger抓取 -->
+    <root level="DEBUG">
+        <appender-ref ref="console"/>
+        <appender-ref ref="error"/>
+    </root>
+
+</configuration>
