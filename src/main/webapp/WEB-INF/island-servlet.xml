@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="top.kwseeker.www.ssm_island" annotation-config="true"/>
+
+    <!-- 格式转换支持-->
+
+    <mvc:annotation-driven> <!--<mvc:annotation-driven /> 会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,
+                                是spring MVC为@Controllers分发请求所必须的。-->
+        <!-- 该注解用于将Controller的方法返回的对象，根据HTTP Request Header的Accept的内容,
+            通过适当的HttpMessageConverter转换为指定格式后，写入到Response对象的body数据区。 -->
+        <!-- http://www.cnblogs.com/fangjian0423/p/springMVC-xml-json-convert.html -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+            <!--旧版本转换器已弃用，新版本为 MappingJackson2HttpMessageConverter-->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
+                          p:autoDetectFields="false"
+                          p:autoDetectGettersSetters="false"/>
+                          <!--p:annotationIntrospector-ref="jaxbAnnotationIntrospector" />-->
+                </property>
+            </bean>
+            <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
+                <!--<property name="supportedMediaTypes">-->
+                    <!--<list>-->
+                        <!--<value>application/json;charset=UTF-8</value>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 配置multipartResolver，注意：id名必须这样写不然会报错， 解析多个请求以及处理文件上传 -->
+    <!-- https://docs.spring.io/spring/docs/5.0.6.RELEASE/spring-framework-reference/web.html#mvc-multipart -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxInMemorySize" value="4096"/>
+    </bean>
+
+    <!-- 文件上传 -->
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+        <!--<property name="maxUploadSize" value="10485760"/> &lt;!&ndash; 10m &ndash;&gt;-->
+        <!--<property name="maxInMemorySize" value="4096" />-->
+        <!--<property name="defaultEncoding" value="UTF-8"></property>-->
+    <!--</bean>-->
+</beans>

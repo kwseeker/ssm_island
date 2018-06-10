@@ -33,6 +33,18 @@ public class User {
         this.updateTime = updateTime;
     }
 
+    public User(String username, String password, String introduction, String phone, String email) {
+        this.uid = null;
+        this.username = username;
+        this.password = password;
+        this.introduction = introduction;
+        this.phone = phone;
+        this.email = email;
+        this.role = null;
+        this.createTime = null;
+        this.updateTime = null;
+    }
+
     public User() {
         super();
     }

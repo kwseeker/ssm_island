@@ -45,15 +45,9 @@
       <if test="email != null">
         email,
       </if>
-      <if test="role != null">
         role,
-      </if>
-      <if test="createTime != null">
         create_time,
-      </if>
-      <if test="updateTime != null">
         update_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uid != null">
@@ -74,15 +68,73 @@
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="role != null">
-        #{role,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+        1,
+        now(),
+        now(),
     </trim>
   </insert>
+
+  <sql id="Base_Column_List" >
+    uid, username, password, introduction, phone, email, role, create_time, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+
+  <!-- SQL： select * from island.t_user where username = 'Arvin' and password = '123456'; -->
+  <select id="selectLogin" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where username = #{username} and password = #{password}
+  </select>
+
+  <select id="selectCheckName" resultType="int" parameterType="string" >
+    select count(1)
+    from t_user
+    where username = #{username}
+  </select>
+
+  <select id="selectCheckEmail" resultType="int" parameterType="string" >
+    select count(1)
+    from t_user
+    where email = #{email}
+  </select>
+
+  <!-- SQL: update t_user set password = '123456', introduction = '...', phone = '13712345678',
+              email = 'xxx@qq.com', role = 1 where username = 'Arvin';
+   -->
+  <update id="updateUserInfo" >
+    update t_user
+      <set>  <!-- <set>规定至少有一个条件为真，才会插入SET语句，并会自动去除多余的“,” -->
+        <if test="password != null">
+          password = #{password},
+        </if>
+        <if test="introduction != null">
+          introduction = #{introduction},
+        </if>
+        <if test="phone != null">
+          phone = #{phone},
+        </if>
+        <if test="email != null">
+          email = #{email},
+        </if>
+      </set>
+    where username = #{username}
+  </update>
+
+  <select id="selectUsernameByEmail" parameterType="string" resultType="string">
+    select username from t_user
+    where email = #{email}
+  </select>
+
+  <!--<update id="updatePasswordByEmail" parameterType="top.kwseeker.www.ssm_island.pojo.User">-->
+    <!--update t_user set password = #{password}-->
+    <!--where email = #{email}-->
+  <!--</update>-->
+
 </mapper>

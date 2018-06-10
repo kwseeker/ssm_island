@@ -1,0 +1,26 @@
+<!-- 此页面打开前要判断用户是否已登录，未登录则提示用户登录 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新随笔</title>
+</head>
+<body>
+    <!-- 时间地点等信息 -->
+
+    <!-- 随笔正文 -->
+    <div id="editor">
+        <!-- 随笔正文编辑区 -->
+    </div>
+    <script type="text/javascript" src="../js/wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        // 或者 var editor = new E( document.getElementById('editor') )
+        editor.create();
+    </script>
+
+    <!-- 权限管理与提交 -->
+
+</body>
+</html>

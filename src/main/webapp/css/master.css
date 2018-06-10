@@ -1,0 +1,154 @@
+/* 外层元素写到上边 */
+/* 书写顺序 
+  位置属性(position, top, right, z-index, display, float等)
+  大小(width, height, padding, margin)
+  文字系列(font, line-height, letter-spacing, color- text-align等)
+  背景(background, border等)
+  其他(animation, transition等) */
+div {
+  display: block;
+}
+
+a {
+  color: #666;
+  text-decoration: none;  /* 隐藏链接的下划线 */
+}
+
+ul {
+  margin: 0;
+}
+
+/* 容器元素公有格式属性 */
+.g-container {
+  top: 0;
+  left: 0;
+}
+
+.wrapper {
+  position: absolute; /* TODO: ? */
+  right: 0;
+  min-height: 100%;
+}
+
+.m-masthread {
+  position: fixed;  /* 一直在窗口顶端保持不动 */
+  width: 100%;  /* 宽度充满父节点 */
+  height: 56px;
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+.masthread-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  /* 设置子元素垂直居中，按行分布 */
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.masthread-container::after {
+  position: absolute;
+  bottom: -5px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 5px;
+  content: "";
+  opacity: 1;
+  box-shadow: inset 0px 4px 8px -3px rgba(17, 17, 17, .26);
+  pointer-events: none;
+}
+
+.guide-btn {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  margin: 0 16px 0 0;
+  box-sizing: border-box;
+}
+
+/* logo */
+.masthread-logo {
+  /* display: flex;
+  flex-direction: row; */
+  width: 50px;
+  height: 50px;
+  padding: 3px;
+  margin-left: 100px;
+}
+
+.module-logo > img {
+  width: 42px;
+  height: 42px;
+}
+
+/* 模块工具栏 */
+.masthread-tools {
+  display: flex;
+  align-content: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex: 1;
+  width: 40px;
+  margin: 0 40px;
+}
+
+#search-form {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-width: 100px;
+  max-width: 500px;
+}
+
+.tools-menu {
+  list-style: none;
+}
+.tools-menu > li {
+  position: relative;
+  display: block;
+  float: left;
+}
+.tools-menu > li > a {
+  line-height: 18px;
+  padding: 0 20px;
+}
+
+/* 登录状态 */
+.masthread-login {
+  width: 100px;
+  height: 50px;
+  padding: 3px;
+  margin-right: 156px;
+
+  /* position: relative; */
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.masthread-login > a {
+  line-height: 18px;
+  text-decoration: none;
+  padding: 16px 0;
+}
+
+.masthread-login-toggle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  float: right;
+}
+
+.m-sidebar {
+  
+
+
+}
